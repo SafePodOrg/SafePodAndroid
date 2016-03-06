@@ -40,6 +40,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUIElements();
     }
 
+//    public void test() {
+//        int hash = 0;
+//        try{
+//            PackageManager packageManager = getPackageManager();
+//            String packageName = getPackageName();
+//            PackageInfo info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
+//            Signature[] signs = info.signatures;
+//            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+//            X509Certificate cert = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(signs[0].toByteArray()));
+//            PublicKey key = cert.getPublicKey();
+//            hash = ((RSAPublicKey) key).getModulus().hashCode();
+//        } catch(Exception e){
+//            Log.d(SafePodApplication.getDebugTag(), "Some error in signature extraction");
+//        }
+//
+//        TextView tv = ((TextView)findViewById(R.id.tv));
+//        tv.setText("The Stack Exchange app's signature hash is " + hash + ".");
+//        tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
+//    }
+
     private void setUIElements() {
         setContentView(R.layout.activity_main);
 
