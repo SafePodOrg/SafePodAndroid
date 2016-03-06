@@ -12,6 +12,15 @@ public class ForumPost {
     private String downvotes;
     private ArrayList<Comment> comments;
     private String appSignature;
+    private String deviceId;
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
 
     public String getAppSignature() {
         return appSignature;

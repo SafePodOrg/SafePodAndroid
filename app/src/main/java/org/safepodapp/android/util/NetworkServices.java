@@ -31,7 +31,9 @@ public class NetworkServices {
 
     // HTTP GET request
     public static String sendGet(String url) throws Exception {
-
+        int responseCode = 0;
+        StringBuffer response = new StringBuffer();
+        try {
         Log.d(SafePodApplication.getDebugTag(), "I came into the fragment");
         URL obj = new URL(url);
 //        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -43,14 +45,16 @@ public class NetworkServices {
         //add request header
         con.setRequestProperty("User-Agent", USER_AGENT);
 
-        int responseCode = con.getResponseCode();
+
+            responseCode = con.getResponseCode();
+
         Log.d(SafePodApplication.getDebugTag(), "\nSending 'GET' request to URL : " + url);
         Log.d(SafePodApplication.getDebugTag(), "Response Code : " + responseCode);
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+
 
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
@@ -58,8 +62,10 @@ public class NetworkServices {
         in.close();
 
         //print result
-//		Log.d(SafePodApplication.getDebugTag(), response.toString());
-
+            //		Log.d(SafePodApplication.getDebugTag(), response.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return response.toString();
     }
 

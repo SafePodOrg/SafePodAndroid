@@ -54,8 +54,7 @@ public class PostExperienceFragment extends Fragment {
         forumPost = new ForumPost();
         forumPost.setBody(String.valueOf(postBody.getText()));
         forumPost.setAppSignature(sharedPreferences.getString("appSignKey", "nokey"));
-        forumPost.set = sharedPreferences.getString("devId", "nodevid");
-
+        forumPost.setDeviceId(sharedPreferences.getString("devId", "nodevid"));
 
         postButton.setOnClickListener(new OnClickListener() {
 
