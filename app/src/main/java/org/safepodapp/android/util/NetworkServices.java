@@ -22,8 +22,8 @@ public class NetworkServices {
     public static URLConnection getProxyConnection(URL obj) throws IOException {
 
         Proxy px = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8118));
-//        return obj.openConnection(px);
-        return obj.openConnection();
+        return obj.openConnection(px);
+//        return obj.openConnection();
     }
 
 
