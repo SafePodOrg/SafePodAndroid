@@ -23,8 +23,6 @@ import android.view.View;
 import org.safepodapp.android.R;
 import org.safepodapp.android.SafePodApplication;
 
-import java.util.Calendar;
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private SharedPreferences sharedPreferences;
     private Toolbar toolbar;
@@ -38,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
 //        createShortCut();
-//        setDefaultSharedPreferences();
+        setDefaultSharedPreferences();
         setUIElements();
     }
 
@@ -181,14 +179,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setDefaultSharedPreferences() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        int hour = 23; //Default expectation is you will reach home at 11
-        int minute = 0;
-
+//        final Calendar c = Calendar.getInstance();
+//        int year = c.get(Calendar.YEAR);
+//        int month = c.get(Calendar.MONTH);
+//        int day = c.get(Calendar.DAY_OF_MONTH);
+//        int hour = 23; //Default expectation is you will reach home at 11
+//        int minute = 0;
+//
 //        if (sharedPreferences.getInt(SafePodApplication.getYear(), 1970) == 1970)
 //            editor.putInt(SafePodApplication.getYear(), year);
 //        if (sharedPreferences.getInt(SafePodApplication.getMonth(), 1) == 1)
@@ -199,9 +196,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            editor.putInt(SafePodApplication.getHourOfDay(), hour);
 //        if (sharedPreferences.getInt(SafePodApplication.getMinute(), 0) == 0)
 //            editor.putInt(SafePodApplication.getMinute(), minute);
-
-        //		if(sharedPreferences.getString(SafepodAppApplication.getUserHomeAddress(), "empty") == "empty")
-        //			editor.putString(SafepodAppApplication.getUserHomeAddress(), "Default Location");
+//
+//        		if(sharedPreferences.getString(SafepodAppApplication.getUserHomeAddress(), "empty") == "empty")
+//        			editor.putString(SafepodAppApplication.getUserHomeAddress(), "Default Location");
         editor.commit();
     }
 
