@@ -5,16 +5,15 @@ package org.safepodapp.android;
  */
 public class SafePodApplication {
     private static final String DEBUG_TAG = "SAFEPOD_APP_DEBUG_TAG";
-    private static final String WEBSERVICE_URI = "http://www.example.com";
-
+    private static final String BASE_URI = "http://safepodapp.org/forum/";
     private static final String SHARED_PREFERENCE = "SAFEPOD_APPS_SAHRED_PREFERENCE";
 
     public static String getDebugTag() {
         return DEBUG_TAG;
     }
 
-    public static String getWebserviceUri() {
-        return WEBSERVICE_URI;
+    public static String getBaseUri() {
+        return BASE_URI;
     }
 
     public static String getSharedPreference() {

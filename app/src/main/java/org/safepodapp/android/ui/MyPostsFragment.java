@@ -1,12 +1,16 @@
 package org.safepodapp.android.ui;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -23,10 +27,18 @@ public class MyPostsFragment extends Fragment {
     private View view;
     private ArrayList<ForumPost> forumPosts = new ArrayList<>();
     private ListView listViewForumPosts;
+    private SharedPreferences sharedPreferences;
+    private String appSignKey;
+    private String deviceId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_my_posts, container, false);
+
+        sharedPreferences = view.getContext().getSharedPreferences(SafePodApplication.getSharedPreference(), Context.MODE_PRIVATE);
+
+        appSignKey = sharedPreferences.getString("appSignKey", "nokey");
+        deviceId = sharedPreferences.getString("devId", "nodevid");
 
         new GetExperiences().execute();
         return view;
@@ -41,7 +53,8 @@ public class MyPostsFragment extends Fragment {
             Log.d(SafePodApplication.getDebugTag(), "On doInBackground...");
 
             try {
-                String result = NetworkServices.sendGet("http://safepodapp.org/forum?");
+                String result = NetworkServices.sendGet(SafePodApplication.getBaseUri() + "/my/?sign=" + appSignKey + "&userid=" + deviceId);
+                //"http://safepodapp.org/forum/my/?sign=appSignKey&userid=deviceId"
                 JSONObject json = new JSONObject(result);
                 JSONArray array = json.getJSONArray("results");
 
@@ -49,14 +62,9 @@ public class MyPostsFragment extends Fragment {
                     JSONObject o = array.getJSONObject(i);
                     ForumPost forumPost = new ForumPost();
                     forumPost.setBody(o.getString("body"));
-//                    forumPost.setDay(o.getString("day"));
-//                    forumPost.setMonth(o.getString("month"));
-//                    forumPost.setZip(o.getString("zip"));
-//                    forumPost.setYear(o.getString("year"));
-//                    forumPost.setLatitude(o.getString("latitude"));
-//                    forumPost.setLongitude(o.getString("longitude"));
-//                    forumPost.setCity(o.getString("city"));
-//                    forumPost.setState(o.getString("state"));
+                    forumPost.setId(o.getString("id"));
+                    JSONArray a = o.getJSONArray("tags");
+                    forumPost.setTags(a);
                     forumPosts.add(forumPost);
                 }
             } catch (Exception e) {
@@ -76,10 +84,20 @@ public class MyPostsFragment extends Fragment {
         protected void onPostExecute(String result) {
             listViewForumPosts = (ListView) view.findViewById(R.id.listViewMyPosts);
             listViewForumPosts.setAdapter(new ForumPostsListAdapter(view.getContext(), R.layout.posts_list_item, forumPosts));
-//            ForumViewPagerAdapter adapter = new ForumViewPagerAdapter(forumPosts);
-//            ViewPager myPager = (ViewPager) view.findViewById(R.id.myfivepanelpager);
-//            myPager.setAdapter(adapter);
-//            myPager.setCurrentItem(0);
+            listViewForumPosts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Fragment fragment = new DetailViewFragment();
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("currentPostId", forumPosts.get(position).getId());
+                    editor.commit();
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.container, fragment)
+                            .commit();
+                }
+            });
         }
     }
 }

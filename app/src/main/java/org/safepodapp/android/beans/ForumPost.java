@@ -1,13 +1,15 @@
 package org.safepodapp.android.beans;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 
 public class ForumPost {
-    private int id;
+    private String id;
     private String body;
     private String[] tags = {};
-    private int upvotes = 0;
-    private int downvotes = 0;
+    private String upvotes;
+    private String downvotes;
     private ArrayList<Comment> comments;
     private String appSignature;
 
@@ -19,11 +21,11 @@ public class ForumPost {
         this.appSignature = appSignature;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -44,25 +46,44 @@ public class ForumPost {
         return tempTagList.toString();
     }
 
+    public void setTags(JSONArray array) {
+        for (int i = 0; i < array.length(); i++) {
+            try {
+                tags[i] = array.getJSONObject(i).toString();
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(JSONArray array) {
+
+    }
+
     public void setTitle(String[] tags) {
         int counter = 0;
         for (String tag : tags)
             tags[counter++] = tag;
     }
 
-    public int getUpvotes() {
+    public String getUpvotes() {
         return upvotes;
     }
 
-    public void setUpvotes(int upvotes) {
+    public void setUpvotes(String upvotes) {
         this.upvotes = upvotes;
     }
 
-    public int getDownvotes() {
+    public String getDownvotes() {
         return downvotes;
     }
 
-    public void setDownvotes(int downvotes) {
+    public void setDownvotes(String downvotes) {
         this.downvotes = downvotes;
     }
 }

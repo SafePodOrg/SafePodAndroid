@@ -1,14 +1,15 @@
 package org.safepodapp.android.ui;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -27,14 +28,19 @@ public class QueryPostsFragment extends Fragment {
     private ArrayList<ForumPost> forumPosts = new ArrayList<>();
     private ListView listViewForumPosts;
     private String searchQuery;
+    private String appSignKey;
+    private String deviceId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_query_posts, container, false);
 
         sharedPreferences = view.getContext().getSharedPreferences(SafePodApplication.getSharedPreference(), Context.MODE_PRIVATE);
+
+        appSignKey = sharedPreferences.getString("appSignKey", "nokey");
+        deviceId = sharedPreferences.getString("devId", "nodevid");
         searchQuery = new String(sharedPreferences.getString("query", ""));
-        Log.d(SafePodApplication.getDebugTag(), "Query is:" + searchQuery);
+//        Log.d(SafePodApplication.getDebugTag(), "Query is:" + searchQuery);
 
         new GetExperiences().execute();
 
@@ -56,8 +62,10 @@ public class QueryPostsFragment extends Fragment {
             System.out.println("On doInBackground...");
 
             try {
-                Log.d(SafePodApplication.getDebugTag(), searchQuery.toString());
-                String result = NetworkServices.sendGet("http://safepodapp.org/forum?q=" + searchQuery.toString());
+//                Log.d(SafePodApplication.getDebugTag(), searchQuery.toString());
+//                String result = NetworkServices.sendGet("http://safepodapp.org/forum/search/?q=" + searchQuery.toString());
+                String result = NetworkServices.sendGet(SafePodApplication.getBaseUri() + "/search/?sign=" + appSignKey + "&userid=" + deviceId + "&q=" + searchQuery.toString());
+                //"http://safepodapp.org/forum/search/?sign=appSignKey&userid=deviceId&q=searchQuery"
                 JSONObject json = new JSONObject(result);
                 JSONArray array = json.getJSONArray("results");
 
@@ -65,6 +73,9 @@ public class QueryPostsFragment extends Fragment {
                     JSONObject o = array.getJSONObject(i);
                     ForumPost forumPost = new ForumPost();
                     forumPost.setBody(o.getString("body"));
+                    forumPost.setId(o.getString("id"));
+                    JSONArray a = o.getJSONArray("tags");
+                    forumPost.setTags(a);
                     forumPosts.add(forumPost);
                 }
             } catch (Exception e) {
@@ -84,10 +95,20 @@ public class QueryPostsFragment extends Fragment {
         protected void onPostExecute(String result) {
             listViewForumPosts = (ListView) view.findViewById(R.id.listViewQueryPosts);
             listViewForumPosts.setAdapter(new ForumPostsListAdapter(view.getContext(), R.layout.posts_list_item, forumPosts));
-//            ForumViewPagerAdapter adapter = new ForumViewPagerAdapter(experiences);
-//            ViewPager myPager = (ViewPager) findViewById(R.id.myfivepanelpager);
-//            myPager.setAdapter(adapter);
-//            myPager.setCurrentItem(0);
+            listViewForumPosts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Fragment fragment = new DetailViewFragment();
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("currentPostId", forumPosts.get(position).getId());
+                    editor.commit();
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.container, fragment)
+                            .commit();
+                }
+            });
         }
     }
 }

@@ -54,6 +54,8 @@ public class PostExperienceFragment extends Fragment {
         forumPost = new ForumPost();
         forumPost.setBody(String.valueOf(postBody.getText()));
         forumPost.setAppSignature(sharedPreferences.getString("appSignKey", "nokey"));
+        forumPost.set = sharedPreferences.getString("devId", "nodevid");
+
 
         postButton.setOnClickListener(new OnClickListener() {
 
@@ -85,8 +87,9 @@ public class PostExperienceFragment extends Fragment {
             String json = gson.toJson(forumPost);
 
             try {
-//				String result = 
-                NetworkServices.sendPost("http://safepodapp.org/forum/forumPost/", json);
+
+                NetworkServices.sendPost(SafePodApplication.getBaseUri() + "post/new/", json);
+                //"http://safepodapp.org/forum/post/new/json"
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

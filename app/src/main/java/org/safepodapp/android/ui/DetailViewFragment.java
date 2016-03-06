@@ -1,6 +1,8 @@
 package org.safepodapp.android.ui;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,11 +25,22 @@ public class DetailViewFragment extends Fragment {
     private View view;
     private ForumPost forumPost;
     private TextView textViewForumPost;
+    private SharedPreferences sharedPreferences;
+    private String postId;
+    private String appSignKey;
+    private String deviceId;
+    private StringBuffer commentsString;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_posts_detail_view, container, false);
 
+        sharedPreferences = view.getContext().getSharedPreferences(SafePodApplication.getSharedPreference(), Context.MODE_PRIVATE);
+        commentsString = new StringBuffer();
+
+        appSignKey = sharedPreferences.getString("appSignKey", "nokey");
+        deviceId = sharedPreferences.getString("devId", "nodevid");
+        postId = sharedPreferences.getString("currentPostId", "noid");
         new GetExperiences().execute();
         return view;
     }
@@ -41,7 +54,8 @@ public class DetailViewFragment extends Fragment {
             Log.d(SafePodApplication.getDebugTag(), "On doInBackground...");
 
             try {
-                String result = NetworkServices.sendGet("http://safepodapp.org/forum?"); // TODO call with id
+                String result = NetworkServices.sendGet(SafePodApplication.getBaseUri() + "/post/?sign=" + appSignKey + "&userid=" + deviceId + "&id=" + postId);
+                //"http://safepodapp.org/forum/post/?sign=appSignKey&userid=deviceId&id=postId"
                 JSONObject json = new JSONObject(result);
                 JSONArray array = json.getJSONArray("results");
 
@@ -49,6 +63,23 @@ public class DetailViewFragment extends Fragment {
                     JSONObject o = array.getJSONObject(i);
                     ForumPost forumPost = new ForumPost();
                     forumPost.setBody(o.getString("body"));
+                    forumPost.setId(o.getString("id"));
+                    forumPost.setUpvotes(o.getString("likes"));
+                    forumPost.setDownvotes(o.getString("dislikes"));
+//                    forumPost.setId(o.getString("posted"));
+//                    forumPost.setId(o.getString("liked"));
+//                    forumPost.setId(o.getString("disliked"));
+                    JSONArray a = o.getJSONArray("tags");
+                    JSONArray comments = o.getJSONArray("comments");
+                    for (int j = 0; j < comments.length(); j++) {
+                        try {
+                            commentsString.append(comments.getJSONObject(j).toString());
+                            commentsString.append("\n");
+                        } catch (Exception e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
