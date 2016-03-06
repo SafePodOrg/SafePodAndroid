@@ -6,20 +6,35 @@ import org.safepodapp.android.SafePodApplication;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.URL;
+import java.net.URLConnection;
 
 public class NetworkServices {
 
     public final static String USER_AGENT = "Mozilla/5.0";
+
+
+    public static URLConnection getProxyConnection(URL obj) throws IOException {
+
+        Proxy px = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8118));
+//        return obj.openConnection(px);
+        return obj.openConnection();
+    }
+
+
+
 
     // HTTP GET request
     public static String sendGet(String url) throws Exception {
 
         Log.d(SafePodApplication.getDebugTag(), "I came into the fragment");
         URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        HttpURLConnection con = (HttpURLConnection) getProxyConnection(obj);
 
         // optional default is GET
         con.setRequestMethod("GET");
@@ -51,7 +66,7 @@ public class NetworkServices {
     public static String sendPost(String url, String experience) throws Exception {
 
         URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        HttpURLConnection con = (HttpURLConnection) getProxyConnection(obj);
 
         //add reuqest header
         con.setRequestMethod("POST");
