@@ -34,6 +34,7 @@ public class NetworkServices {
 
         Log.d(SafePodApplication.getDebugTag(), "I came into the fragment");
         URL obj = new URL(url);
+//        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         HttpURLConnection con = (HttpURLConnection) getProxyConnection(obj);
 
         // optional default is GET

@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
 //        createShortCut();
-        setDefaultSharedPreferences();
+//        setDefaultSharedPreferences();
         setUIElements();
     }
 
