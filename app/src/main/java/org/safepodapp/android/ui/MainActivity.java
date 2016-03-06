@@ -3,16 +3,20 @@ package org.safepodapp.android.ui;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -23,6 +27,11 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private SharedPreferences sharedPreferences;
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +44,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setUIElements() {
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        sharedPreferences = getSharedPreferences(SafePodApplication.getSharedPreference(), Context.MODE_PRIVATE);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         defaultFragmentLoad();
@@ -72,13 +83,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void defaultFragmentLoad() {
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.container, new MainFragment())
+        fragmentManager.beginTransaction().replace(R.id.container, new TopPostsFragment())
                 .commit();
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -86,51 +97,71 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        // Retrieve the SearchView and plug it into SearchManager
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
 
-    @SuppressWarnings("StatementWithEmptyBody")
+        //This is a bad hack find out a better way
+//        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        Log.d(SafePodApplication.getDebugTag(), "came after query");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d(SafePodApplication.getDebugTag(), "submit");
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("query", searchView.getQuery().toString());
+                editor.commit();
+                Log.d(SafePodApplication.getDebugTag(), searchView.getQuery().toString());
+
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.container, new QueryPostsFragment())
+                        .commit();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+//                Log.d(SafePodApplication.getDebugTag(),"change");
+                return false;
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_search) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         Fragment fragment = null;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_forum) {
-            // Handle the camera action
-            Log.d(SafePodApplication.getDebugTag(), "I came into the listener");
-            fragment = new MainFragment();
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
+        if (id == R.id.nav_home) {
+            // Handle the Home action
+//            Log.d(SafePodApplication.getDebugTag(), "I came into the listener");
+            fragment = new TopPostsFragment();
+        } else if (id == R.id.nav_my_posts) {
+            fragment = new MyPostsFragment();
         } else if (id == R.id.nav_about) {
-            //TODO Have to generate the right fragment and attach it here
-//            fragment = new MainFragment();
-        } else if (id == R.id.nav_questions) {
-            //TODO Have to generate the right fragment and attach it here
-//            fragment = new MainFragment();
+            fragment = new AboutUsFragment();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -148,27 +179,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-//    public CharSequence getmTitle() {
-//        return mTitle;
-//    }
-//    public void setmTitle(CharSequence mTitle) {
-//        this.mTitle = mTitle;
-//    }
-//
-//    public void onSectionAttached(int number) {
-//        switch (number) {
-//            case 1:
-//                setmTitle(getString(R.string.title_section1));
-//                break;
-//            case 2:
-//                setmTitle(getString(R.string.title_section2));
-//                break;
-//            case 3:
-//                setmTitle(getString(R.string.title_section3));
-//                break;
-//        }
-//    }
-
     private void setDefaultSharedPreferences() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -179,16 +189,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int hour = 23; //Default expectation is you will reach home at 11
         int minute = 0;
 
-        if (sharedPreferences.getInt(SafePodApplication.getYear(), 1970) == 1970)
-            editor.putInt(SafePodApplication.getYear(), year);
-        if (sharedPreferences.getInt(SafePodApplication.getMonth(), 1) == 1)
-            editor.putInt(SafePodApplication.getMonth(), month);
-        if (sharedPreferences.getInt(SafePodApplication.getDayOfMonth(), 1) == 1)
-            editor.putInt(SafePodApplication.getDayOfMonth(), day);
-        if (sharedPreferences.getInt(SafePodApplication.getHourOfDay(), 0) == 0)
-            editor.putInt(SafePodApplication.getHourOfDay(), hour);
-        if (sharedPreferences.getInt(SafePodApplication.getMinute(), 0) == 0)
-            editor.putInt(SafePodApplication.getMinute(), minute);
+//        if (sharedPreferences.getInt(SafePodApplication.getYear(), 1970) == 1970)
+//            editor.putInt(SafePodApplication.getYear(), year);
+//        if (sharedPreferences.getInt(SafePodApplication.getMonth(), 1) == 1)
+//            editor.putInt(SafePodApplication.getMonth(), month);
+//        if (sharedPreferences.getInt(SafePodApplication.getDayOfMonth(), 1) == 1)
+//            editor.putInt(SafePodApplication.getDayOfMonth(), day);
+//        if (sharedPreferences.getInt(SafePodApplication.getHourOfDay(), 0) == 0)
+//            editor.putInt(SafePodApplication.getHourOfDay(), hour);
+//        if (sharedPreferences.getInt(SafePodApplication.getMinute(), 0) == 0)
+//            editor.putInt(SafePodApplication.getMinute(), minute);
 
         //		if(sharedPreferences.getString(SafepodAppApplication.getUserHomeAddress(), "empty") == "empty")
         //			editor.putString(SafepodAppApplication.getUserHomeAddress(), "Default Location");
@@ -205,4 +215,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        shortcutintent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, new Intent(getApplicationContext(), EnterActivity.class));
 //        sendBroadcast(shortcutintent);
 //    }
+
 }

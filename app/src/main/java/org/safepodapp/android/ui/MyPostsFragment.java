@@ -3,29 +3,30 @@ package org.safepodapp.android.ui;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.safepodapp.android.R;
 import org.safepodapp.android.SafePodApplication;
-import org.safepodapp.android.adapters.ForumViewPagerAdapter;
-import org.safepodapp.android.beans.Experience;
+import org.safepodapp.android.adapters.ForumPostsListAdapter;
+import org.safepodapp.android.beans.ForumPost;
 import org.safepodapp.android.util.NetworkServices;
 
 import java.util.ArrayList;
 
-public class MainFragment extends Fragment {
+public class MyPostsFragment extends Fragment {
     private View view;
-    private ArrayList<Experience> experiences = new ArrayList<>();
+    private ArrayList<ForumPost> forumPosts = new ArrayList<>();
+    private ListView listViewForumPosts;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_main, container, false);
+        view = inflater.inflate(R.layout.fragment_my_posts, container, false);
 
         new GetExperiences().execute();
         return view;
@@ -46,17 +47,17 @@ public class MainFragment extends Fragment {
 
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject o = array.getJSONObject(i);
-                    Experience experience = new Experience();
-                    experience.setBody(o.getString("body"));
-                    experience.setDay(o.getString("day"));
-                    experience.setMonth(o.getString("month"));
-                    experience.setZip(o.getString("zip"));
-                    experience.setYear(o.getString("year"));
-                    experience.setLatitude(o.getString("latitude"));
-                    experience.setLongitude(o.getString("longitude"));
-                    experience.setCity(o.getString("city"));
-                    experience.setState(o.getString("state"));
-                    experiences.add(experience);
+                    ForumPost forumPost = new ForumPost();
+                    forumPost.setBody(o.getString("body"));
+//                    forumPost.setDay(o.getString("day"));
+//                    forumPost.setMonth(o.getString("month"));
+//                    forumPost.setZip(o.getString("zip"));
+//                    forumPost.setYear(o.getString("year"));
+//                    forumPost.setLatitude(o.getString("latitude"));
+//                    forumPost.setLongitude(o.getString("longitude"));
+//                    forumPost.setCity(o.getString("city"));
+//                    forumPost.setState(o.getString("state"));
+                    forumPosts.add(forumPost);
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -73,10 +74,12 @@ public class MainFragment extends Fragment {
         }
 
         protected void onPostExecute(String result) {
-            ForumViewPagerAdapter adapter = new ForumViewPagerAdapter(experiences);
-            ViewPager myPager = (ViewPager) view.findViewById(R.id.myfivepanelpager);
-            myPager.setAdapter(adapter);
-            myPager.setCurrentItem(0);
+            listViewForumPosts = (ListView) view.findViewById(R.id.listViewMyPosts);
+            listViewForumPosts.setAdapter(new ForumPostsListAdapter(view.getContext(), R.layout.posts_list_item, forumPosts));
+//            ForumViewPagerAdapter adapter = new ForumViewPagerAdapter(forumPosts);
+//            ViewPager myPager = (ViewPager) view.findViewById(R.id.myfivepanelpager);
+//            myPager.setAdapter(adapter);
+//            myPager.setCurrentItem(0);
         }
     }
 }

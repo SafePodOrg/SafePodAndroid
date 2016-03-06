@@ -1,5 +1,6 @@
 package org.safepodapp.android.adapters;
 
+import android.graphics.Typeface;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -11,19 +12,19 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.safepodapp.android.R;
-import org.safepodapp.android.beans.Experience;
+import org.safepodapp.android.beans.ForumPost;
 
 import java.util.ArrayList;
 
 public class ForumViewPagerAdapter extends PagerAdapter {
-    private ArrayList<Experience> experiences = new ArrayList<>();
+    private ArrayList<ForumPost> forumPosts = new ArrayList<>();
 
-    public ForumViewPagerAdapter(ArrayList<Experience> ex) {
-        experiences = ex;
+    public ForumViewPagerAdapter(ArrayList<ForumPost> ex) {
+        forumPosts = ex;
     }
 
     public int getCount() {
-        return experiences.size();
+        return forumPosts.size();
     }
 
     public Object instantiateItem(View collection, int position) {
@@ -42,13 +43,12 @@ public class ForumViewPagerAdapter extends PagerAdapter {
         location.setGravity(Gravity.LEFT);
         location.setTextSize(28);
         location.setLineSpacing(0.0f, 1.2f);
-//	    Typeface face = Typeface.createFromAsset(collection.getContext().getAssets(),
-//	            "JosefinSans-Regular.ttf");
-//	    location.setTypeface(face);
-        if (experiences.get(position).getCity().compareTo("") == 0 && experiences.get(position).getCity().compareTo("") == 0)
-            location.setText("Location : Not Specified");
-        else
-            location.setText(experiences.get(position).getCity() + ", " + experiences.get(position).getState());
+        Typeface face = Typeface.createFromAsset(collection.getContext().getAssets(), "JosefinSans-Regular.ttf");
+        location.setTypeface(face);
+//        if (forumPosts.get(position).getCity().compareTo("") == 0 && forumPosts.get(position).getCity().compareTo("") == 0)
+//            location.setText("Location : Not Specified");
+//        else
+//            location.setText(forumPosts.get(position).getCity() + ", " + forumPosts.get(position).getState());
         layout.addView(location);
 
         TextView when = new TextView(collection.getContext());
@@ -56,20 +56,20 @@ public class ForumViewPagerAdapter extends PagerAdapter {
         when.setGravity(Gravity.LEFT);
         when.setTextSize(28);
         when.setLineSpacing(0.0f, 1.2f);
-//		when.setTypeface(face);
-        if (experiences.get(position).getMonth().compareTo("0") == 0 && experiences.get(position).getMonth().compareTo("0") == 0 && experiences.get(position).getMonth().compareTo("0") == 0)
-            when.setText("Date and Time : Not Specified \n\n");
-        else
-            when.setText("Date and Time : " + experiences.get(position).getMonth() + "-" + experiences.get(position).getDay() + "-" + experiences.get(position).getDay() + "\n\n");
+        when.setTypeface(face);
+//        if (forumPosts.get(position).getMonth().compareTo("0") == 0 && forumPosts.get(position).getMonth().compareTo("0") == 0 && forumPosts.get(position).getMonth().compareTo("0") == 0)
+//            when.setText("Date and Time : Not Specified \n\n");
+//        else
+//            when.setText("Date and Time : " + forumPosts.get(position).getMonth() + "-" + forumPosts.get(position).getDay() + "-" + forumPosts.get(position).getDay() + "\n\n");
         layout.addView(when);
 
         TextView description = new TextView(collection.getContext());
         description.setTextColor(collection.getContext().getResources().getColor(R.color.light));
         description.setGravity(Gravity.LEFT);
         description.setTextSize(28);
-//		description.setTypeface(face);
+        description.setTypeface(face);
         description.setLineSpacing(0.0f, 1.2f);
-        description.setText(experiences.get(position).getBody());
+        description.setText(forumPosts.get(position).getBody());
         layout.addView(description);
         scroll.addView(layout);
 

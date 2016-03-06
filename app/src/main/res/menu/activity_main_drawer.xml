@@ -3,9 +3,13 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_forum"
-            android:icon="@drawable/ic_forum_black_24dp"
-            android:title="Forum" />
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_my_posts"
+            android:icon="@drawable/ic_account_box"
+            android:title="My Posts" />
         <!--<item-->
         <!--android:id="@+id/nav_gallery"-->
         <!--android:icon="@drawable/ic_menu_gallery"-->
@@ -26,10 +30,10 @@
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_info_black_24dp"
                 android:title="About us" />
-            <item
-                android:id="@+id/nav_questions"
-                android:icon="@drawable/ic_help"
-                android:title="Questions" />
+            <!--<item-->
+            <!--android:id="@+id/nav_questions"-->
+            <!--android:icon="@drawable/ic_help"-->
+            <!--android:title="Questions" />-->
         </menu>
     </item>
 

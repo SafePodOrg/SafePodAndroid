@@ -19,15 +19,15 @@ import com.google.gson.Gson;
 
 import org.safepodapp.android.R;
 import org.safepodapp.android.SafePodApplication;
-import org.safepodapp.android.beans.Experience;
+import org.safepodapp.android.beans.ForumPost;
 import org.safepodapp.android.util.NetworkServices;
 
 public class PostExperienceFragment extends Fragment {
 
     private EditText postBody;
     private Button postButton;
-    private Button addLocation;
-    private Button addDate;
+//    private Button addLocation;
+//    private Button addDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -36,14 +36,18 @@ public class PostExperienceFragment extends Fragment {
 
         postBody = (EditText) rootView.findViewById(R.id.writePost);
         postButton = (Button) rootView.findViewById(R.id.post_experience_button);
-        addLocation = (Button) rootView.findViewById(R.id.addLocation);
-        addDate = (Button) rootView.findViewById(R.id.addDate);
+//        addLocation = (Button) rootView.findViewById(R.id.addLocation);
+//        addDate = (Button) rootView.findViewById(R.id.addDate);
 
-        postBody.setTextColor(getResources().getColor(R.color.light, rootView.getContext().getTheme()));
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.M)
+            // only for versions older than Marhsmallow
+            postBody.setTextColor(getResources().getColor(R.color.light));
+        else
+            postBody.setTextColor(getResources().getColor(R.color.light, rootView.getContext().getTheme()));
+
         postBody.setGravity(Gravity.LEFT);
         postBody.setTextSize(28);
-        Typeface face = Typeface.createFromAsset(container.getContext().getAssets(),
-                "JosefinSans-Regular.ttf");
+        Typeface face = Typeface.createFromAsset(container.getContext().getAssets(), "JosefinSans-Regular.ttf");
         postBody.setTypeface(face);
         postBody.setLineSpacing(0.0f, 1.2f);
         
@@ -77,7 +81,7 @@ public class PostExperienceFragment extends Fragment {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 new PostExperience().execute();
-                MainFragment forumFragment = new MainFragment();
+                TopPostsFragment forumFragment = new TopPostsFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                 transaction.replace(container.getId(), forumFragment);
@@ -98,15 +102,15 @@ public class PostExperienceFragment extends Fragment {
         protected String doInBackground(Void... arg0) {
             Log.d(SafePodApplication.getDebugTag(), "On doInBackground...");
 
-            Experience experience = new Experience();
-            experience.setBody(String.valueOf(postBody.getText()));
+            ForumPost forumPost = new ForumPost();
+            forumPost.setBody(String.valueOf(postBody.getText()));
 
             Gson gson = new Gson();
-            String json = gson.toJson(experience);
+            String json = gson.toJson(forumPost);
 
             try {
 //				String result = 
-                NetworkServices.sendPost("http://safepodapp.org/forum/post/", json);
+                NetworkServices.sendPost("http://safepodapp.org/forum/forumPost/", json);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

@@ -21,6 +21,7 @@
     <color name="dark">#363636</color>
     <color name="light">#DDDDDD</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="cream">#FFFFE5</color>
     <color name="yellow">#FFFF00</color>
 </resources>

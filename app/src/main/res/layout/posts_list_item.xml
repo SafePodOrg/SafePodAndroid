@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewPostTags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:fontFamily="josephine-sans"
+        android:lineSpacingExtra="@dimen/line_spacing"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:textSize="28dp" />
+
+    <TextView
+        android:id="@+id/textViewPostBody"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/textViewPostTags"
+        android:fontFamily="josephine-sans"
+        android:lineSpacingExtra="@dimen/line_spacing"
+        android:lines="4"
+        android:maxLines="4"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+        android:textSize="28dp" />
+
+</RelativeLayout>
