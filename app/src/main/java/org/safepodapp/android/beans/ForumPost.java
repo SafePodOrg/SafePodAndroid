@@ -9,6 +9,15 @@ public class ForumPost {
     private int upvotes = 0;
     private int downvotes = 0;
     private ArrayList<Comment> comments;
+    private String appSignature;
+
+    public String getAppSignature() {
+        return appSignature;
+    }
+
+    public void setAppSignature(String appSignature) {
+        this.appSignature = appSignature;
+    }
 
     public int getId() {
         return id;

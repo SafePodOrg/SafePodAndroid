@@ -5,6 +5,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +26,8 @@ import android.view.View;
 
 import org.safepodapp.android.R;
 import org.safepodapp.android.SafePodApplication;
+
+import java.security.MessageDigest;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private SharedPreferences sharedPreferences;
@@ -36,34 +42,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
 //        createShortCut();
-//        setDefaultSharedPreferences();
         setUIElements();
     }
-
-//    public void test() {
-//        int hash = 0;
-//        try{
-//            PackageManager packageManager = getPackageManager();
-//            String packageName = getPackageName();
-//            PackageInfo info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
-//            Signature[] signs = info.signatures;
-//            CertificateFactory cf = CertificateFactory.getInstance("X.509");
-//            X509Certificate cert = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(signs[0].toByteArray()));
-//            PublicKey key = cert.getPublicKey();
-//            hash = ((RSAPublicKey) key).getModulus().hashCode();
-//        } catch(Exception e){
-//            Log.d(SafePodApplication.getDebugTag(), "Some error in signature extraction");
-//        }
-//
-//        TextView tv = ((TextView)findViewById(R.id.tv));
-//        tv.setText("The Stack Exchange app's signature hash is " + hash + ".");
-//        tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
-//    }
 
     private void setUIElements() {
         setContentView(R.layout.activity_main);
 
         sharedPreferences = getSharedPreferences(SafePodApplication.getSharedPreference(), Context.MODE_PRIVATE);
+        setDefaultSharedPreferences();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -199,26 +185,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setDefaultSharedPreferences() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-//        final Calendar c = Calendar.getInstance();
-//        int year = c.get(Calendar.YEAR);
-//        int month = c.get(Calendar.MONTH);
-//        int day = c.get(Calendar.DAY_OF_MONTH);
-//        int hour = 23; //Default expectation is you will reach home at 11
-//        int minute = 0;
-//
-//        if (sharedPreferences.getInt(SafePodApplication.getYear(), 1970) == 1970)
-//            editor.putInt(SafePodApplication.getYear(), year);
-//        if (sharedPreferences.getInt(SafePodApplication.getMonth(), 1) == 1)
-//            editor.putInt(SafePodApplication.getMonth(), month);
-//        if (sharedPreferences.getInt(SafePodApplication.getDayOfMonth(), 1) == 1)
-//            editor.putInt(SafePodApplication.getDayOfMonth(), day);
-//        if (sharedPreferences.getInt(SafePodApplication.getHourOfDay(), 0) == 0)
-//            editor.putInt(SafePodApplication.getHourOfDay(), hour);
-//        if (sharedPreferences.getInt(SafePodApplication.getMinute(), 0) == 0)
-//            editor.putInt(SafePodApplication.getMinute(), minute);
-//
-//        		if(sharedPreferences.getString(SafepodAppApplication.getUserHomeAddress(), "empty") == "empty")
-//        			editor.putString(SafepodAppApplication.getUserHomeAddress(), "Default Location");
+        try {
+            PackageInfo packageInfo = getApplicationContext().getPackageManager()
+                    .getPackageInfo(getApplicationContext().getPackageName(),
+                            PackageManager.GET_SIGNATURES);
+            for (Signature signature : packageInfo.signatures) {
+                byte[] signatureBytes = signature.toByteArray();
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                editor.putString("appSignKey", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (Exception e) {
+            //assumes an issue in checking signature., but we let the caller decide on what to do.
+        }
         editor.commit();
     }
 

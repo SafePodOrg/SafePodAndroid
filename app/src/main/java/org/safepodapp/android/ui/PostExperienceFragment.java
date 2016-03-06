@@ -2,6 +2,8 @@ package org.safepodapp.android.ui;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,21 +25,19 @@ import org.safepodapp.android.beans.ForumPost;
 import org.safepodapp.android.util.NetworkServices;
 
 public class PostExperienceFragment extends Fragment {
-
     private EditText postBody;
     private Button postButton;
-//    private Button addLocation;
-//    private Button addDate;
+    private SharedPreferences sharedPreferences;
+    private ForumPost forumPost;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_post_experience, container, false);
+
+        sharedPreferences = rootView.getContext().getSharedPreferences(SafePodApplication.getSharedPreference(), Context.MODE_PRIVATE);
 
         postBody = (EditText) rootView.findViewById(R.id.writePost);
         postButton = (Button) rootView.findViewById(R.id.post_experience_button);
-//        addLocation = (Button) rootView.findViewById(R.id.addLocation);
-//        addDate = (Button) rootView.findViewById(R.id.addDate);
 
         if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.M)
             // only for versions older than Marhsmallow
@@ -50,36 +50,15 @@ public class PostExperienceFragment extends Fragment {
         Typeface face = Typeface.createFromAsset(container.getContext().getAssets(), "JosefinSans-Regular.ttf");
         postBody.setTypeface(face);
         postBody.setLineSpacing(0.0f, 1.2f);
-        
-        /*addLocation.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				int PLACE_PICKER_REQUEST = 1;
-				PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-				startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
-
-			}
-		});
-        
-        addDate.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				DialogFragment newFragment = TimePickerFragment.newInstance();
-				newFragment = DatePickerFragment.newInstance();
-		        newFragment.show(getFragmentManager().beginTransaction(), "date_picker");
-		        
-
-			}
-		});*/
+        forumPost = new ForumPost();
+        forumPost.setBody(String.valueOf(postBody.getText()));
+        forumPost.setAppSignature(sharedPreferences.getString("appSignKey", "nokey"));
 
         postButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 new PostExperience().execute();
                 TopPostsFragment forumFragment = new TopPostsFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -101,9 +80,6 @@ public class PostExperienceFragment extends Fragment {
 
         protected String doInBackground(Void... arg0) {
             Log.d(SafePodApplication.getDebugTag(), "On doInBackground...");
-
-            ForumPost forumPost = new ForumPost();
-            forumPost.setBody(String.valueOf(postBody.getText()));
 
             Gson gson = new Gson();
             String json = gson.toJson(forumPost);
