@@ -37,6 +37,8 @@ public class DetailViewFragment extends Fragment {
 
         sharedPreferences = view.getContext().getSharedPreferences(SafePodApplication.getSharedPreference(), Context.MODE_PRIVATE);
         commentsString = new StringBuffer();
+        commentsString.append("\n");
+        forumPost = new ForumPost();
 
         appSignKey = sharedPreferences.getString("appSignKey", "nokey");
         deviceId = sharedPreferences.getString("devId", "nodevid");
@@ -50,18 +52,29 @@ public class DetailViewFragment extends Fragment {
             Log.d(SafePodApplication.getDebugTag(), "On pre Exceute......");
         }
 
+        @Override
         protected String doInBackground(Void... arg0) {
             Log.d(SafePodApplication.getDebugTag(), "On doInBackground...");
 
             try {
-                String result = NetworkServices.sendGet(SafePodApplication.getBaseUri() + "/post/?sign=" + appSignKey + "&userid=" + deviceId + "&id=" + postId);
+                Log.d(SafePodApplication.getDebugTag(), SafePodApplication.getBaseUri() + "post/" + postId);
+                String result = NetworkServices.sendGet(SafePodApplication.getBaseUri() +
+                                SafePodApplication.getUriQuestionMark() +
+                                SafePodApplication.getUriVariableAppSignature() +
+                                appSignKey +
+                                SafePodApplication.getUriAmpersand() +
+                                SafePodApplication.getUriVariableDeviceIdentifier() +
+                                deviceId +
+                                SafePodApplication.getUriAmpersand() +
+                                SafePodApplication.getUriVariablePostIdentifier() +
+                                postId
+                );
                 //"http://safepodapp.org/forum/post/?sign=appSignKey&userid=deviceId&id=postId"
                 JSONObject json = new JSONObject(result);
                 JSONArray array = json.getJSONArray("results");
 
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject o = array.getJSONObject(i);
-                    ForumPost forumPost = new ForumPost();
                     forumPost.setBody(o.getString("body"));
                     forumPost.setId(o.getString("id"));
                     forumPost.setUpvotes(o.getString("likes"));
@@ -95,7 +108,10 @@ public class DetailViewFragment extends Fragment {
         protected void onProgressUpdate(Integer... a) {
         }
 
+        @Override
         protected void onPostExecute(String result) {
+            TextView tv = (TextView) view.findViewById(R.id.postDetailTextView);
+            tv.setText(forumPost.getBody());//+commentsString.toString());
         }
     }
 

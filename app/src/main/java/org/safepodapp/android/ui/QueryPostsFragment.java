@@ -62,9 +62,17 @@ public class QueryPostsFragment extends Fragment {
             System.out.println("On doInBackground...");
 
             try {
-//                Log.d(SafePodApplication.getDebugTag(), searchQuery.toString());
-//                String result = NetworkServices.sendGet("http://safepodapp.org/forum/search/?q=" + searchQuery.toString());
-                String result = NetworkServices.sendGet(SafePodApplication.getBaseUri() + "/search/?sign=" + appSignKey + "&userid=" + deviceId + "&q=" + searchQuery.toString());
+                String result = NetworkServices.sendGet(SafePodApplication.getBaseUri() +
+                                SafePodApplication.getUriQuestionMark() +
+                                SafePodApplication.getUriVariableAppSignature() +
+                                appSignKey +
+                                SafePodApplication.getUriAmpersand() +
+                                SafePodApplication.getUriVariableDeviceIdentifier() +
+                                deviceId +
+                                SafePodApplication.getUriAmpersand() +
+                                SafePodApplication.getUriVariableSearchQueryText() +
+                                searchQuery
+                );
                 //"http://safepodapp.org/forum/search/?sign=appSignKey&userid=deviceId&q=searchQuery"
                 JSONObject json = new JSONObject(result);
                 JSONArray array = json.getJSONArray("results");

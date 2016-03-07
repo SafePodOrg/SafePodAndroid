@@ -53,7 +53,14 @@ public class TopPostsFragment extends Fragment {
             Log.d(SafePodApplication.getDebugTag(), "On doInBackground...");
 
             try {
-                String result = NetworkServices.sendGet(SafePodApplication.getBaseUri() + "?sign=" + appSignKey + "&userid=" + deviceId);
+                String result = NetworkServices.sendGet(SafePodApplication.getBaseUri() +
+                                SafePodApplication.getUriQuestionMark() +
+                                SafePodApplication.getUriVariableAppSignature() +
+                                appSignKey +
+                                SafePodApplication.getUriAmpersand() +
+                                SafePodApplication.getUriVariableDeviceIdentifier() +
+                                deviceId
+                );
                 //"http://safepodapp.org/forum/?sign=appSignKey&userid=deviceId"
                 JSONObject json = new JSONObject(result);
                 JSONArray array = json.getJSONArray("results");

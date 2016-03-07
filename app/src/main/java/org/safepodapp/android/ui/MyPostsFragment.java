@@ -39,6 +39,7 @@ public class MyPostsFragment extends Fragment {
 
         appSignKey = sharedPreferences.getString("appSignKey", "nokey");
         deviceId = sharedPreferences.getString("devId", "nodevid");
+        listViewForumPosts = (ListView) view.findViewById(R.id.listViewMyPosts);
 
         new GetExperiences().execute();
         return view;
@@ -53,7 +54,14 @@ public class MyPostsFragment extends Fragment {
             Log.d(SafePodApplication.getDebugTag(), "On doInBackground...");
 
             try {
-                String result = NetworkServices.sendGet(SafePodApplication.getBaseUri() + "/my/?sign=" + appSignKey + "&userid=" + deviceId);
+                String result = NetworkServices.sendGet(SafePodApplication.getBaseUri() +
+                                SafePodApplication.getUriQuestionMark() +
+                                SafePodApplication.getUriVariableAppSignature() +
+                                appSignKey +
+                                SafePodApplication.getUriAmpersand() +
+                                SafePodApplication.getUriVariableDeviceIdentifier() +
+                                deviceId
+                );
                 //"http://safepodapp.org/forum/my/?sign=appSignKey&userid=deviceId"
                 JSONObject json = new JSONObject(result);
                 JSONArray array = json.getJSONArray("results");
@@ -82,7 +90,6 @@ public class MyPostsFragment extends Fragment {
         }
 
         protected void onPostExecute(String result) {
-            listViewForumPosts = (ListView) view.findViewById(R.id.listViewMyPosts);
             listViewForumPosts.setAdapter(new ForumPostsListAdapter(view.getContext(), R.layout.posts_list_item, forumPosts));
             listViewForumPosts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

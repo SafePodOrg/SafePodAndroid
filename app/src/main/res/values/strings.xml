@@ -8,8 +8,9 @@
     <string name="about_us">Something about us...</string>
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">In order to ensure highest level of privacy,\n
-                                 you are required to use a TOR network. Please\n
-                                 click the button below to install the Orbot   \n
-                                 App from Google PlayStore.                    \n</string>
+    <string name="dummy_content">SafePod is committed to provide the highest \n
+                                    level of privacy online. To ensure this we \n
+                                    use TOR, a popular techonology to maintain \n
+                                    anonimity. Please click the button below and \n
+                                    install the App from Google PlayStore. </string>
 </resources>

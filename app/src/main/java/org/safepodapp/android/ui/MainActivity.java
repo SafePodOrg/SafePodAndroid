@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
                 editor.putString("appSignKey", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//                editor.putString("appSignKey", "empty");
             }
         } catch (Exception e) {
             //assumes an issue in checking signature., but we let the caller decide on what to do.

@@ -86,8 +86,7 @@ public class PostExperienceFragment extends Fragment {
             String json = gson.toJson(forumPost);
 
             try {
-
-                NetworkServices.sendPost(SafePodApplication.getBaseUri() + "post/new/", json);
+                NetworkServices.sendPost(SafePodApplication.getBaseUri() + "post/new", json);
                 //"http://safepodapp.org/forum/post/new/json"
             } catch (Exception e) {
                 // TODO Auto-generated catch block
