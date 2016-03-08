@@ -19,30 +19,48 @@ import org.safepodapp.android.R;
 import org.safepodapp.android.SafePodApplication;
 import org.safepodapp.android.adapters.ForumPostsListAdapter;
 import org.safepodapp.android.beans.ForumPost;
+import org.safepodapp.android.exceptions.AppSignatureNotGeneratedException;
+import org.safepodapp.android.exceptions.DeviceIdNotGeneratedException;
 import org.safepodapp.android.util.NetworkServices;
 
 import java.util.ArrayList;
 
 public class MyPostsFragment extends Fragment {
     private View view;
-    private ArrayList<ForumPost> forumPosts = new ArrayList<>();
-    private ListView listViewForumPosts;
     private SharedPreferences sharedPreferences;
     private String appSignKey;
     private String deviceId;
+    private ArrayList<ForumPost> forumPosts = new ArrayList<>();
+    private ListView listViewForumPosts;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_my_posts, container, false);
-
-        sharedPreferences = view.getContext().getSharedPreferences(SafePodApplication.getSharedPreference(), Context.MODE_PRIVATE);
-
-        appSignKey = sharedPreferences.getString("appSignKey", "nokey");
-        deviceId = sharedPreferences.getString("devId", "nodevid");
         listViewForumPosts = (ListView) view.findViewById(R.id.listViewMyPosts);
-
+//        try {
+//            setInputData();
+//        } catch(DeviceIdNotGeneratedException e) {
+//            Log.e(SafePodApplication.getDebugTag(),e.getMessage());
+//            return view;
+//        } catch (AppSignatureNotGeneratedException e) {
+//            Log.e(SafePodApplication.getDebugTag(),e.getMessage());
+//            return view;
+//        }
         new GetExperiences().execute();
         return view;
+    }
+
+    private void setInputData() throws DeviceIdNotGeneratedException, AppSignatureNotGeneratedException {
+        sharedPreferences = view.getContext().getSharedPreferences(SafePodApplication.getSharedPreference(), Context.MODE_PRIVATE);
+        appSignKey = sharedPreferences.getString(SafePodApplication.getUriVariableAppSignatureKey(),
+                SafePodApplication.getErrorTag() + SafePodApplication.getUriVariableAppSignatureKey());
+        deviceId = sharedPreferences.getString(SafePodApplication.getUriVariableDeviceIdentifierKey(),
+                SafePodApplication.getErrorTag() + SafePodApplication.getUriVariableDeviceIdentifierKey());
+
+        if (appSignKey.startsWith(SafePodApplication.getErrorTag()))
+            throw new AppSignatureNotGeneratedException();
+        if (deviceId.startsWith(SafePodApplication.getErrorTag()))
+            throw new DeviceIdNotGeneratedException();
     }
 
     private class GetExperiences extends AsyncTask<Void, Integer, String> {
@@ -55,14 +73,19 @@ public class MyPostsFragment extends Fragment {
 
             try {
                 String result = NetworkServices.sendGet(SafePodApplication.getBaseUri() +
+                        SafePodApplication.getUriSlash() +
+                        SafePodApplication.getUriPost() +
+                        SafePodApplication.getUriSlash() +
+                        SafePodApplication.getUriMy() +
+                        SafePodApplication.getUriSlash() +
                                 SafePodApplication.getUriQuestionMark() +
                                 SafePodApplication.getUriVariableAppSignature() +
-                                appSignKey +
+                        "123" +//appSignKey +
                                 SafePodApplication.getUriAmpersand() +
                                 SafePodApplication.getUriVariableDeviceIdentifier() +
-                                deviceId
+                        "123"//deviceId
                 );
-                //"http://safepodapp.org/forum/my/?sign=appSignKey&userid=deviceId"
+                //"http://safepodapp.org/forum/post/my/?sign=appsignkey&userid=deviceid"
                 JSONObject json = new JSONObject(result);
                 JSONArray array = json.getJSONArray("results");
 

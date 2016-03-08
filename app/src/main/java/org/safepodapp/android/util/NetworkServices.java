@@ -1,5 +1,9 @@
 package org.safepodapp.android.util;
 
+import android.util.Log;
+
+import org.safepodapp.android.SafePodApplication;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -20,6 +24,7 @@ public class NetworkServices {
 
     // HTTP GET request
     public static String sendGet(String url) throws Exception {
+        Log.d(SafePodApplication.getDebugTag(), url);
         int responseCode = 0;
         StringBuffer response = new StringBuffer();
         try {

@@ -3,13 +3,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <!-- Only if we want a dark background we will do this.-->
-    <!--android:background="@color/dark" >-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -19,25 +17,16 @@
             android:scrollbarStyle="outsideInset"
             android:scrollbars="horizontal|vertical">
 
-            <HorizontalScrollView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dip"
-                android:fadeScrollbars="false"
-                android:fillViewport="true"
-                android:scrollbars="horizontal|vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.8"
-                    android:fontFamily="josephine-sans"
-                    android:lineSpacingExtra="@dimen/line_spacing"
-                    android:text="@string/about_us"
-                    android:textColor="@color/black_overlay"
-                    android:textSize="28dp"></TextView>
-            </HorizontalScrollView>
+                android:layout_weight="0.8"
+                android:fontFamily="josephine-sans"
+                android:lineSpacingExtra="@dimen/line_spacing"
+                android:scrollHorizontally="false"
+                android:text="@string/about_us"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/black_overlay" />
         </ScrollView>
     </LinearLayout>
-
 </RelativeLayout>

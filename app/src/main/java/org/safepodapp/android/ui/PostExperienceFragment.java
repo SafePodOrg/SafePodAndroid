@@ -22,34 +22,26 @@ import com.google.gson.Gson;
 import org.safepodapp.android.R;
 import org.safepodapp.android.SafePodApplication;
 import org.safepodapp.android.beans.ForumPost;
+import org.safepodapp.android.exceptions.AppSignatureNotGeneratedException;
+import org.safepodapp.android.exceptions.DeviceIdNotGeneratedException;
 import org.safepodapp.android.util.NetworkServices;
 
 public class PostExperienceFragment extends Fragment {
+    private View view;
+    private SharedPreferences sharedPreferences;
+    private String appSignKey;
+    private String deviceId;
     private EditText postBody;
     private Button postButton;
-    private SharedPreferences sharedPreferences;
     private ForumPost forumPost;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_post_experience, container, false);
+        view = inflater.inflate(R.layout.fragment_post_experience, container, false);
 
-        sharedPreferences = rootView.getContext().getSharedPreferences(SafePodApplication.getSharedPreference(), Context.MODE_PRIVATE);
+        setViews();
 
-        postBody = (EditText) rootView.findViewById(R.id.writePost);
-        postButton = (Button) rootView.findViewById(R.id.post_experience_button);
-
-        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.M)
-            // only for versions older than Marhsmallow
-            postBody.setTextColor(getResources().getColor(R.color.light));
-        else
-            postBody.setTextColor(getResources().getColor(R.color.light, rootView.getContext().getTheme()));
-
-        postBody.setGravity(Gravity.LEFT);
-        postBody.setTextSize(28);
-        Typeface face = Typeface.createFromAsset(container.getContext().getAssets(), "JosefinSans-Regular.ttf");
-        postBody.setTypeface(face);
-        postBody.setLineSpacing(0.0f, 1.2f);
+        sharedPreferences = view.getContext().getSharedPreferences(SafePodApplication.getSharedPreference(), Context.MODE_PRIVATE);
 
         forumPost = new ForumPost();
         forumPost.setBody(String.valueOf(postBody.getText()));
@@ -71,7 +63,37 @@ public class PostExperienceFragment extends Fragment {
             }
         });
 
-        return rootView;
+        return view;
+    }
+
+    private void setViews() {
+        postBody = (EditText) view.findViewById(R.id.writePost);
+        postButton = (Button) view.findViewById(R.id.post_experience_button);
+
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.M)
+            // only for versions older than Marhsmallow
+            postBody.setTextColor(getResources().getColor(R.color.light));
+        else
+            postBody.setTextColor(getResources().getColor(R.color.light, view.getContext().getTheme()));
+
+        postBody.setGravity(Gravity.LEFT);
+        postBody.setTextSize(28);
+        Typeface face = Typeface.createFromAsset(view.getContext().getAssets(), "JosefinSans-Regular.ttf");
+        postBody.setTypeface(face);
+        postBody.setLineSpacing(0.0f, 1.2f);
+    }
+
+    private void setInputData() throws DeviceIdNotGeneratedException, AppSignatureNotGeneratedException {
+        sharedPreferences = view.getContext().getSharedPreferences(SafePodApplication.getSharedPreference(), Context.MODE_PRIVATE);
+        appSignKey = sharedPreferences.getString(SafePodApplication.getUriVariableAppSignatureKey(),
+                SafePodApplication.getErrorTag() + SafePodApplication.getUriVariableAppSignatureKey());
+        deviceId = sharedPreferences.getString(SafePodApplication.getUriVariableDeviceIdentifierKey(),
+                SafePodApplication.getErrorTag() + SafePodApplication.getUriVariableDeviceIdentifierKey());
+
+        if (appSignKey.startsWith(SafePodApplication.getErrorTag()))
+            throw new AppSignatureNotGeneratedException();
+        if (deviceId.startsWith(SafePodApplication.getErrorTag()))
+            throw new DeviceIdNotGeneratedException();
     }
 
     class PostExperience extends AsyncTask<Void, Integer, String> {

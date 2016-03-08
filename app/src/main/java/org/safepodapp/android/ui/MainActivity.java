@@ -193,7 +193,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 byte[] signatureBytes = signature.toByteArray();
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
-                editor.putString("appSignKey", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+                String appSignKey = Base64.encodeToString(md.digest(), Base64.DEFAULT);
+                editor.putString("appSignKey", appSignKey.trim());
 //                editor.putString("appSignKey", "empty");
             }
         } catch (Exception e) {

@@ -16,6 +16,8 @@ import org.json.JSONObject;
 import org.safepodapp.android.R;
 import org.safepodapp.android.SafePodApplication;
 import org.safepodapp.android.beans.ForumPost;
+import org.safepodapp.android.exceptions.AppSignatureNotGeneratedException;
+import org.safepodapp.android.exceptions.DeviceIdNotGeneratedException;
 import org.safepodapp.android.util.NetworkServices;
 
 /**
@@ -23,13 +25,13 @@ import org.safepodapp.android.util.NetworkServices;
  */
 public class DetailViewFragment extends Fragment {
     private View view;
-    private ForumPost forumPost;
-    private TextView textViewForumPost;
     private SharedPreferences sharedPreferences;
-    private String postId;
     private String appSignKey;
     private String deviceId;
+    private String postId;
     private StringBuffer commentsString;
+    private ForumPost forumPost;
+    private TextView textViewForumPost;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +47,19 @@ public class DetailViewFragment extends Fragment {
         postId = sharedPreferences.getString("currentPostId", "noid");
         new GetExperiences().execute();
         return view;
+    }
+
+    private void setInputData() throws DeviceIdNotGeneratedException, AppSignatureNotGeneratedException {
+        sharedPreferences = view.getContext().getSharedPreferences(SafePodApplication.getSharedPreference(), Context.MODE_PRIVATE);
+        appSignKey = sharedPreferences.getString(SafePodApplication.getUriVariableAppSignatureKey(),
+                SafePodApplication.getErrorTag() + SafePodApplication.getUriVariableAppSignatureKey());
+        deviceId = sharedPreferences.getString(SafePodApplication.getUriVariableDeviceIdentifierKey(),
+                SafePodApplication.getErrorTag() + SafePodApplication.getUriVariableDeviceIdentifierKey());
+
+        if (appSignKey.startsWith(SafePodApplication.getErrorTag()))
+            throw new AppSignatureNotGeneratedException();
+        if (deviceId.startsWith(SafePodApplication.getErrorTag()))
+            throw new DeviceIdNotGeneratedException();
     }
 
     private class GetExperiences extends AsyncTask<Void, Integer, String> {
@@ -114,5 +129,4 @@ public class DetailViewFragment extends Fragment {
             tv.setText(forumPost.getBody());//+commentsString.toString());
         }
     }
-
 }
