@@ -1,4 +1,4 @@
-package org.safepodapp.android;
+package org.safepod.app.android;
 
 /**
  * Created by Prajit on 3/5/2016.
@@ -7,7 +7,7 @@ package org.safepodapp.android;
  * Get my posts: http://safepodapp.org/forum/my/?sign=appSignKey&userid=deviceId
  * Get queried topicwise posts: http://safepodapp.org/forum/search/?sign=appSignKey&userid=deviceId&q=searchQuery
  * Get specific post detail: http://safepodapp.org/forum/post/?sign=appSignKey&userid=deviceId&id=postId
-
+ * <p/>
  * The following comments are Post calls that will be accompanied by JSON:
  * Make new post: http://safepodapp.org/forum/post/new/ (input: )
  * Make new comment: http://safepodapp.org/forum/post/comment/new/ (input: )

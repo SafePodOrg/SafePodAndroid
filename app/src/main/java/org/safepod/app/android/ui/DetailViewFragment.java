@@ -1,4 +1,4 @@
-package org.safepodapp.android.ui;
+package org.safepod.app.android.ui;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -13,12 +13,12 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.safepodapp.android.R;
-import org.safepodapp.android.SafePodApplication;
-import org.safepodapp.android.beans.ForumPost;
-import org.safepodapp.android.exceptions.AppSignatureNotGeneratedException;
-import org.safepodapp.android.exceptions.DeviceIdNotGeneratedException;
-import org.safepodapp.android.util.NetworkServices;
+import org.safepod.app.android.R;
+import org.safepod.app.android.SafePodApplication;
+import org.safepod.app.android.beans.ForumPost;
+import org.safepod.app.android.exceptions.AppSignatureNotGeneratedException;
+import org.safepod.app.android.exceptions.DeviceIdNotGeneratedException;
+import org.safepod.app.android.util.NetworkServices;
 
 /**
  * Created by Prajit on 3/6/2016.

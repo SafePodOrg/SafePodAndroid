@@ -1,4 +1,4 @@
-package org.safepodapp.android.beans;
+package org.safepod.app.android.beans;
 
 import org.json.JSONArray;
 

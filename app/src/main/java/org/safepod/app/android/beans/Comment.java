@@ -1,4 +1,4 @@
-package org.safepodapp.android.beans;
+package org.safepod.app.android.beans;
 
 /**
  * Created by Prajit on 3/6/2016.

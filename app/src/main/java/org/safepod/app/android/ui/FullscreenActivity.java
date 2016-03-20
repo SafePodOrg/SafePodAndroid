@@ -1,4 +1,4 @@
-package org.safepodapp.android.ui;
+package org.safepod.app.android.ui;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
@@ -15,7 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
-import org.safepodapp.android.R;
+import org.safepod.app.android.R;
 
 import java.util.List;
 

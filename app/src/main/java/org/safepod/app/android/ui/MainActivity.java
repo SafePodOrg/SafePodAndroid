@@ -1,4 +1,4 @@
-package org.safepodapp.android.ui;
+package org.safepod.app.android.ui;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -24,8 +24,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.safepodapp.android.R;
-import org.safepodapp.android.SafePodApplication;
+import org.safepod.app.android.R;
+import org.safepod.app.android.SafePodApplication;
 
 import java.security.MessageDigest;
 

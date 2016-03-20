@@ -1,4 +1,4 @@
-package org.safepodapp.android.adapters;
+package org.safepod.app.android.adapters;
 
 import android.graphics.Typeface;
 import android.os.Parcelable;
@@ -11,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import org.safepodapp.android.R;
-import org.safepodapp.android.beans.ForumPost;
+import org.safepod.app.android.R;
+import org.safepod.app.android.beans.ForumPost;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package org.safepodapp.android.ui;
+package org.safepod.app.android.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.safepodapp.android.R;
+import org.safepod.app.android.R;
 
 public class AboutUsFragment extends Fragment {
     @Override

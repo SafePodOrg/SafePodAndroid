@@ -1,21 +1,21 @@
-package org.safepodapp.android.exceptions;
+package org.safepod.app.android.exceptions;
 
 /**
  * Created by Prajit on 3/7/2016.
  */
-public class DeviceIdNotGeneratedException extends Exception {
-    public DeviceIdNotGeneratedException() {
+public class AppSignatureNotGeneratedException extends Exception {
+    public AppSignatureNotGeneratedException() {
     }
 
-    public DeviceIdNotGeneratedException(String detailMessage) {
+    public AppSignatureNotGeneratedException(String detailMessage) {
         super(detailMessage);
     }
 
-    public DeviceIdNotGeneratedException(String detailMessage, Throwable throwable) {
+    public AppSignatureNotGeneratedException(String detailMessage, Throwable throwable) {
         super(detailMessage, throwable);
     }
 
-    public DeviceIdNotGeneratedException(Throwable throwable) {
+    public AppSignatureNotGeneratedException(Throwable throwable) {
         super(throwable);
     }
 

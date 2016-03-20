@@ -1,4 +1,4 @@
-package org.safepodapp.android.ui;
+package org.safepod.app.android.ui;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -15,13 +15,13 @@ import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.safepodapp.android.R;
-import org.safepodapp.android.SafePodApplication;
-import org.safepodapp.android.adapters.ForumPostsListAdapter;
-import org.safepodapp.android.beans.ForumPost;
-import org.safepodapp.android.exceptions.AppSignatureNotGeneratedException;
-import org.safepodapp.android.exceptions.DeviceIdNotGeneratedException;
-import org.safepodapp.android.util.NetworkServices;
+import org.safepod.app.android.R;
+import org.safepod.app.android.SafePodApplication;
+import org.safepod.app.android.adapters.ForumPostsListAdapter;
+import org.safepod.app.android.beans.ForumPost;
+import org.safepod.app.android.exceptions.AppSignatureNotGeneratedException;
+import org.safepod.app.android.exceptions.DeviceIdNotGeneratedException;
+import org.safepod.app.android.util.NetworkServices;
 
 import java.util.ArrayList;
 
@@ -73,11 +73,11 @@ public class TopPostsFragment extends Fragment {
             try {
                 String result = NetworkServices.sendGet(SafePodApplication.getBaseUri() +
                         SafePodApplication.getUriSlash() +
-                                SafePodApplication.getUriQuestionMark() +
-                                SafePodApplication.getUriVariableAppSignature() +
+                        SafePodApplication.getUriQuestionMark() +
+                        SafePodApplication.getUriVariableAppSignature() +
                         "123" +//appSignKey +
-                                SafePodApplication.getUriAmpersand() +
-                                SafePodApplication.getUriVariableDeviceIdentifier() +
+                        SafePodApplication.getUriAmpersand() +
+                        SafePodApplication.getUriVariableDeviceIdentifier() +
                         "123"//deviceId
                 );
                 //"http://safepodapp.org/forum/?sign=appSignKey&userid=deviceId"

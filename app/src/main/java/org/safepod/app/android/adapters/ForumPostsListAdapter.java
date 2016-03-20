@@ -1,22 +1,20 @@
-package org.safepodapp.android.adapters;
+package org.safepod.app.android.adapters;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import org.safepodapp.android.R;
-import org.safepodapp.android.beans.ForumPost;
+import org.safepod.app.android.R;
+import org.safepod.app.android.beans.ForumPost;
 
 import java.util.List;
 
 public class ForumPostsListAdapter extends ArrayAdapter<ForumPost> {
     private List<ForumPost> postList;
     private Context context;
-    private PackageManager packageManager;
 
     public ForumPostsListAdapter(Context context, int resource,
                                  List<ForumPost> objects) {
@@ -24,22 +22,6 @@ public class ForumPostsListAdapter extends ArrayAdapter<ForumPost> {
 
         this.context = context;
         this.postList = objects;
-        packageManager = context.getPackageManager();
-    }
-
-    @Override
-    public int getCount() {
-        return ((postList != null) ? postList.size() : 0);
-    }
-
-    @Override
-    public ForumPost getItem(int position) {
-        return ((postList != null) ? postList.get(position) : null);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
     }
 
     @Override
@@ -63,5 +45,4 @@ public class ForumPostsListAdapter extends ArrayAdapter<ForumPost> {
         }
         return view;
     }
-
 }

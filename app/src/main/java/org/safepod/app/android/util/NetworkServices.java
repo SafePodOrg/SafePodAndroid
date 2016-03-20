@@ -1,8 +1,8 @@
-package org.safepodapp.android.util;
+package org.safepod.app.android.util;
 
 import android.util.Log;
 
-import org.safepodapp.android.SafePodApplication;
+import org.safepod.app.android.SafePodApplication;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
