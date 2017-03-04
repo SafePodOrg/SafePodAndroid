@@ -9,16 +9,11 @@
         <option name="gradleJvm" value="1.7" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="/media/prajit/data/code/android/projects/SafePodAndroid" />
+            <option value="/media/prajit/data/code/android/projects/SafePodAndroid/app" />
           </set>
         </option>
-        <option name="myModules">
-          <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-          </set>
-        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
