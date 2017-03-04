@@ -23,44 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f0ec05b-b955-432e-90a6-c29590bd34de" name="Default" comment="build file changes">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/projectFilesBackup/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="/media/prajit/data/code/android/projects/SafePodAndroid/projectFilesBackup/.idea/workspace.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/animated_vector_drawable_23_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_23_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/design_23_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/recyclerview_v7_23_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_annotations_23_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_23_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_vector_drawable_23_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/libraries/animated_vector_drawable_23_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/libraries/appcompat_v7_23_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/libraries/design_23_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/libraries/recyclerview_v7_23_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/libraries/support_annotations_23_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/libraries/support_v4_23_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/libraries/support_vector_drawable_23_2_0.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/gson_1_7.xml" afterPath="$PROJECT_DIR$/.idea/libraries/gson_1_7.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SafePodAndroid.iml" afterPath="$PROJECT_DIR$/SafePodAndroid.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
-      <change type="MODIFICATION" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/gradle.xml" afterPath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/libraries/gson_1_7.xml" afterPath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/libraries/gson_1_7.xml" />
-      <change type="MODIFICATION" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/misc.xml" afterPath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/modules.xml" afterPath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/vcs.xml" afterPath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/workspace.xml" afterPath="/media/prajit/data/code/android/projects/SafePodAndroid/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/SafePodAndroid.iml" afterPath="/media/prajit/data/code/android/projects/SafePodAndroid/SafePodAndroid.iml" />
-      <change type="MODIFICATION" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/app/app.iml" afterPath="/media/prajit/data/code/android/projects/SafePodAndroid/app/app.iml" />
-      <change type="MODIFICATION" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/app/build.gradle" afterPath="/media/prajit/data/code/android/projects/SafePodAndroid/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/build.gradle" afterPath="/media/prajit/data/code/android/projects/SafePodAndroid/build.gradle" />
-      <change type="MODIFICATION" beforePath="/media/prajit/data/code/android/projects/SafePodAndroid/gradle/wrapper/gradle-wrapper.properties" afterPath="/media/prajit/data/code/android/projects/SafePodAndroid/gradle/wrapper/gradle-wrapper.properties" />
     </list>
     <ignored path="SafePodAndroid.iws" />
     <ignored path=".idea/workspace.xml" />
